@@ -1,5 +1,7 @@
+import os
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 def extract_title_and_text(url):
     response = requests.get(url)
@@ -15,23 +17,7 @@ def extract_title_and_text(url):
     else:
         return None, None
 
-url = "https://insights.blackcoffer.com/rise-of-telemedicine-and-its-impact-on-livelihood-by-2040-3-2/"  
-# Replace with the desired URL
-title, text = extract_title_and_text(url)
 
-if title and text:
-    print("Title:", title)
-    print("Text:", text)
-else:
-    print("Unable to fetch title and text from the URL.")
-
-
-# In[4]:
-
-
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup
 
 excel_file = "Input.xlsx"
 df = pd.read_excel(excel_file)
@@ -47,6 +33,11 @@ def extract_content_from_url(url):
     else:
         return None, None
 
+directory_name = "Output Files"
+
+if not os.path.exists(directory_name):
+    os.mkdir(directory_name)
+
 # Loop through URLs, extract content, and save as text files
 for index, row in df.iterrows():
     url = row['URL']  # Replace with the actual column name containing URLs
@@ -54,7 +45,9 @@ for index, row in df.iterrows():
     title, text = extract_content_from_url(url)
     
     if title and text:
-        with open(f"{url_id}.txt", "w", encoding="utf-8") as f:
+        file_path = os.path.join(directory_name,f"{url_id}.txt")
+
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(f"Title: {title}\n\n")
             f.write(f"Text: {text}\n")
 
