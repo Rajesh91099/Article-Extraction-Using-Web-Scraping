@@ -3,22 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-def extract_title_and_text(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'html.parser')
-        
-        title = soup.title.string if soup.title else "No title found"
-        
-        paragraphs = soup.find_all('p')
-        text = ' '.join([p.get_text() for p in paragraphs])
-        
-        return title, text
-    else:
-        return None, None
-
-
-
 excel_file = "Input.xlsx"
 df = pd.read_excel(excel_file)
 
@@ -40,7 +24,7 @@ if not os.path.exists(directory_name):
 
 # Loop through URLs, extract content, and save as text files
 for index, row in df.iterrows():
-    url = row['URL']  # Replace with the actual column name containing URLs
+    url = row['URL']
     url_id = row['URL_ID']
     title, text = extract_content_from_url(url)
     
