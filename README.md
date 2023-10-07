@@ -1,0 +1,1 @@
+This project is to extract textual data articles from the given URL and perform text analysis, For each of the articles, given in the input.xlsx file, extracted the article text and saved the extracted article in a text file with URL_ID as its file name and performed textual analysis and computed variables, given in the output structure excel file.
